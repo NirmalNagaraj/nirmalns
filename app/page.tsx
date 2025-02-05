@@ -1,101 +1,152 @@
-import Image from "next/image";
+/*eslint-disable */ 
+"use client"
+
+import { useEffect } from "react"
+import Image from "next/image"
+import { CubePattern } from "@/components/cube-pattern"
+import { SocialLinks } from "@/components/social-links"
+import { HireMeButton } from "@/components/hire-me-button"
+import { ExperienceCard } from "@/components/experience-card"
+import { SkillBadge } from "@/components/skill-badge"
+import { Footer } from "@/components/footer"
+import { Terminal } from "lucide-react"
+import { HomeNavbar } from "@/components/home-navbar"
+
+const skills = [
+  { name: "HTML5", icon: "/icons/html5.svg", color: "#E34F26" },
+  { name: "CSS3", icon: "/icons/css3.svg", color: "#1572B6" },
+  { name: "JavaScript", icon: "/icons/javascript.svg", color: "#F7DF1E" },
+  { name: "TypeScript", icon: "/icons/typescript.svg", color: "#3178C6" },
+  { name: "React", icon: "/icons/react.svg", color: "#61DAFB" },
+  { name: "Next.js", icon: "/icons/nextjs.svg", color: "#000000" },
+  { name: "Node.js", icon: "/icons/nodejs.svg", color: "#339933" },
+  { name: "MongoDB", icon: "/icons/mongodb.svg", color: "#47A248" },
+  { name: "PostgreSQL", icon: "/icons/postgresql.svg", color: "#336791" },
+  { name: "Docker", icon: "/icons/docker.svg", color: "#2496ED" },
+  { name: "AWS", icon: "/icons/aws.svg", color: "#FF9900" },
+  { name: "Git", icon: "/icons/git.svg", color: "#F05032" },
+]
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY
+      const windowHeight = window.innerHeight
+      const sections = document.querySelectorAll("section")
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+      sections.forEach((section) => {
+        const sectionTop = section.offsetTop
+        const sectionHeight = section.offsetHeight
+
+        if (
+          scrollPosition > sectionTop - windowHeight / 2 &&
+          scrollPosition < sectionTop + sectionHeight - windowHeight / 2
+        ) {
+          section.classList.add("animate-fadeIn")
+        } else {
+          section.classList.remove("animate-fadeIn")
+        }
+      })
+    }
+
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
+
+  return (
+    <div className="min-h-screen bg-[#121212] flex flex-col">
+      <HomeNavbar />
+
+      <main className="flex-grow">
+        {/* Hero Section */}
+        <section className="container mx-auto px-4 py-24 relative overflow-hidden">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="relative z-10">
+              <div className="flex items-center gap-2 text-sm text-gray-400 mb-4 slide-in-left">
+                <Terminal className="w-4 h-4" />
+                <span>Welcome to my portfolio</span>
+              </div>
+
+              <h1 className="text-4xl md:text-5xl font-medium text-white mb-6 leading-tight slide-in-left">
+                Software engineer, technical writer &amp; cloud architect
+              </h1>
+
+              <p className="text-lg text-gray-300 mb-8 slide-in-left">
+                <span className="dev-gradient font-semibold">I&apos;m Nirmal NS</span>
+                <span className="typing-cursor"></span>, an experienced software engineer passionate about cloud
+                architecture, technical writing, and building innovative solutions.
+              </p>
+
+              <div className="flex items-center gap-6 slide-in-left" style={{ animationDelay: "0.8s" }}>
+                <SocialLinks />
+                <HireMeButton />
+              </div>
+            </div>
+
+            <div className="relative w-full h-[600px]">
+              <Image
+                src="/profile-3d.png"
+                alt="3D Developer Illustration"
+                fill
+                className="animate-float object-contain"
+                priority
+              />
+            </div>
+          </div>
+          <CubePattern />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob glassmorphism"></div>
+          <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[400px] h-[400px] bg-yellow-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000 glassmorphism"></div>
+          <div className="absolute bottom-1/4 left-1/4 w-[300px] h-[300px] bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000 glassmorphism"></div>
+        </section>
+
+        {/* Animated line */}
+        <div className="w-1/2 h-0.5 mx-auto bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 animate-flow-x"></div>
+
+        {/* Experience Section */}
+        <section className="py-20 bg-[#0a0a0a] relative overflow-hidden">
+          <div className="container mx-auto px-4 relative z-10">
+            <h2 className="text-3xl font-bold mb-12 text-white text-center">Work Experience</h2>
+            <div className="space-y-6">
+              <ExperienceCard
+                company="Coyotech"
+                role="Full Stack Developer"
+                period="2025 - Present"
+                description="Working on full-stack development projects using modern technologies and best practices."
+                logo="/company-logos/coyotech.png"
+              />
+              <ExperienceCard
+                company="Steam A"
+                role="Graduate Developer Intern"
+                period="2024 - 2025"
+                description="Contributed to various development projects while learning and implementing new technologies."
+                logo="/company-logos/steam-a.png"
+              />
+              <ExperienceCard
+                company="Altruisty"
+                role="Developer Intern"
+                period="2023 - 2024"
+                description="Gained hands-on experience in software development and collaborated with senior developers."
+                logo="/company-logos/altruisty.png"
+              />
+            </div>
+          </div>
+        </section>
+
+        {/* Skills Section */}
+        <section className="py-20 bg-[#121212] relative overflow-hidden">
+          <div className="container mx-auto px-4 relative z-10">
+            <h2 className="text-3xl font-bold mb-12 text-white text-center">Skills &amp; Technologies</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 justify-items-center">
+              {skills.map((skill) => (
+                <SkillBadge key={skill.name} name={skill.name} icon={skill.icon} color={skill.color} />
+              ))}
+            </div>
+          </div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-pulse"></div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+      <Footer />
     </div>
-  );
+  )
 }
